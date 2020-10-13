@@ -5,12 +5,9 @@ import VideoList from "./VideosList";
 import VideoDetail from "./VideoDetail";
 
 const App = () => {
-	const [videos, setVideos] = useState([]);
 	const [selectedVideo, setSelectedVideo] = useState(null);
 
-	useEffect(() => {
-		onTermSubmit("Web Development");
-	}, []);
+	// setSelectedVideo(response.data.items[0]);
 
 	const onTermSubmit = async (term) => {
 		const response = await youtube.get("/search", {
@@ -19,12 +16,7 @@ const App = () => {
 			},
 		});
 
-		setVideos(response.data.item);
-		setSelectedVideo(response.data.items[0]);
-	};
-
-	const onVideoSelect = (video) => {
-		setSelectedVideo(video);
+		setVideos(response.data.items);
 	};
 
 	return (
@@ -36,7 +28,7 @@ const App = () => {
 						<VideoDetail video={selectedVideo} />
 					</div>
 					<div className='5 wide column'>
-						<VideoList onVideoSelect={onVideoSelect} videos={videos} />
+						<VideoList onVideoSelect={setSelectedVideo} videos={videos} />
 					</div>
 				</div>
 			</div>
